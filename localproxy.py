@@ -5,6 +5,8 @@ import tornado.tcpserver
 import tornado.tcpclient
 import tornado.gen
 import datetime
+proxys= open('proxys.txt', 'r')
+
 from queue import Queue
 class Connection(object):
     clients=set()
@@ -73,12 +75,10 @@ class Connection(object):
         print(data)
         self._stream.write(data)
 
-
-import urllib.request
-r=urllib.request.urlopen("http://xvre.daili666api.com/ip/?tid=556775634957175&num=20&delay=3&sortby=time&foreign=none")
-r=r.read().decode().split('\r\n')
-for p in r:
-    ip,port=p.split(':')
+print('获取到可用IP:')
+for p in proxys:
+    ip,port=p.strip().split(':')
+    print(ip,port)
     Connection.proxys.put((ip,int(port)))
 # import pdb;pdb.set_trace()
 class ProxyTCP(tornado.tcpserver.TCPServer):
