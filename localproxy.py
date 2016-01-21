@@ -35,10 +35,14 @@ class Connection(object):
                 break
             except tornado.gen.TimeoutError:
                 proxy_client.close()
-                print(proxy_ip+':'+str(proxy_port)+'timeout!')
+                print(proxy_ip+':'+str(proxy_port)+'-timeout!')
             except ConnectionError:
                 proxy_client.close()
-                print(proxy_ip+':'+str(proxy_port)+'connecterror!')
+                print(proxy_ip+':'+str(proxy_port)+'-connecterror!')
+            except Exception:
+                proxy_client.close()
+                print(proxy_ip+':'+str(proxy_port)+'-error!')
+                
 
     def onclose_original(self,data=None):
         print('close original')
